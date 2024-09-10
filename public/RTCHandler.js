@@ -76,6 +76,8 @@ const createPeerConnection = () => {
         status: "disconnected"
       });
       try {
+        getFormattedTimestamp();
+        console.log("onConferenceEnd timestamp" + getFormattedTimestamp());
         ui.callNFI("onConferenceEnd");
       } catch (ex) {
         console.log(ex);
@@ -92,6 +94,8 @@ const createPeerConnection = () => {
         let hangup = document.getElementById("hang_up_button");
         hangup.disabled = false;
         ui.callNFI("onAccept");
+        getFormattedTimestamp();
+        console.log("onConferenceStarted timestamp" + getFormattedTimestamp());
         ui.callNFI("onConferenceStarted");
         ui.updateConnectedUser();
       } catch (ex) {
@@ -367,3 +371,19 @@ const setIncomingCallsAvailable = () => {
     store.setCallState(constants.callState.CALL_AVAILABLE_ONLY_CHAT);
   }
 };
+
+function getFormattedTimestamp() {
+  const now = new Date();
+
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+  const milliseconds = String(now.getMilliseconds()).padStart(3, '0');
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
+}
+
+console.log("getFormattedTimestamp" +getFormattedTimestamp());
