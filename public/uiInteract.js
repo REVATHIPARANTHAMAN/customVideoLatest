@@ -55,18 +55,26 @@ export const showInfoDialog = (preOfferAnswer) => {
   let infoDialog = null;
 
   if (preOfferAnswer === constants.preOfferAnswer.CALL_REJECTED) {
+    getFormattedTimestamp();
+    console.log("On Reject callback timestamp" + getFormattedTimestamp());
     callNFI("onReject");
   }
 
   if (preOfferAnswer === constants.preOfferAnswer.CALLEE_NOT_FOUND) {
+    getFormattedTimestamp();
+    console.log("CallIdNotFound callback timestamp" + getFormattedTimestamp());
     callNFI("CallIdNotFound");
   }
 
   if (preOfferAnswer === constants.preOfferAnswer.CALL_UNAVAILABLE) {
+    getFormattedTimestamp();
+    console.log("AgentBusy callback timestamp" + getFormattedTimestamp());
     callNFI("AgentBusy");
   }
 
   if (preOfferAnswer === constants.preOfferAnswer.CALL_NOT_ANSWERED) {
+    getFormattedTimestamp();
+    console.log("CallNotAnswered callback timestamp" + getFormattedTimestamp());
     callNFI("CallNotAnswered");
   }
 };
@@ -197,4 +205,17 @@ export const updateConnectedUser = () => {
   if (connected_user) {
     connected_user.textContent = store.getRemoteUser();
   }
+};
+function getFormattedTimestamp() {
+  const now = new Date();
+
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+  const milliseconds = String(now.getMilliseconds()).padStart(3, '0');
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
 }

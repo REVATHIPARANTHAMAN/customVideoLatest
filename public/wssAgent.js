@@ -52,6 +52,8 @@ export const registerSocketEvents = (socket) => {
     connect_vc.textContent = "Connect VC";
     connect_vc.dataset.status = "disconnected";
     console.log("socket disconnected");
+    getFormattedTimestamp();
+    console.log("Socket disconnected time stamp" +getFormattedTimestamp() );
     ringtone.pause();
     sessionTool.session.dispose();
   });
@@ -60,6 +62,8 @@ export const registerSocketEvents = (socket) => {
     const status_bar = document.querySelector("#status_bar");
     status_bar.style.display = "none";
     console.log("socket connected");
+    getFormattedTimestamp();
+    console.log("Socket Connected time stamp" +getFormattedTimestamp() );
   })
 
   socket.on("webRTC-signaling", (data) => {
@@ -98,3 +102,16 @@ export const sendUserHangedUp = (data) => {
 export const sendConnectionStatus = (data) => {
   socketIO.emit("updateConnectionStatus", data);
 };
+function getFormattedTimestamp() {
+  const now = new Date();
+
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+  const milliseconds = String(now.getMilliseconds()).padStart(3, '0');
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
+}
